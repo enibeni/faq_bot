@@ -4,6 +4,8 @@ from dotenv import load_dotenv
 import dialogflow_v2 as dialogflow
 import vk_api
 from vk_api.longpoll import VkLongPoll, VkEventType
+import logging
+from logs_handler import TelegramLogsHandler
 
 
 def detect_intent_texts(project_id, session_id, texts, language_code):
@@ -31,18 +33,25 @@ def start_vk_listener(event, vk_api):
     project_id = os.getenv('PROJECT_ID')
     session_id = event.user_id,
     texts = [event.text]
-
-    response = detect_intent_texts(project_id, session_id, texts, "ru-RU")
-    if response is not None:
-        vk_api.messages.send(
-            user_id=event.user_id,
-            message=response,
-            random_id=random.randint(1,1000)
-        )
+    try:
+        response = detect_intent_texts(project_id, session_id, texts, "ru-RU")
+        if response is not None:
+            vk_api.messages.send(
+                user_id=event.user_id,
+                message=response,
+                random_id=random.randint(1,1000)
+            )
+    except Exception as e:
+        vk_logger.error('Бот упал с ошибкой:')
+        vk_logger.exception(e)
 
 
 if __name__ == "__main__":
     load_dotenv()
+    vk_logger = logging.getLogger("vk-bot")
+    vk_logger.setLevel(logging.INFO)
+    handler = TelegramLogsHandler()
+    vk_logger.addHandler(handler)
 
     vk_session = vk_api.VkApi(token=os.getenv('VK_TOKEN'))
     vk_api = vk_session.get_api()
