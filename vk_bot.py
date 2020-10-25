@@ -15,7 +15,6 @@ def detect_intent_texts(project_id, session_id, texts, language_code):
     session = session_client.session_path(project_id, session_id)
 
     for text in texts:
-        print(text)
         text_input = dialogflow.types.TextInput(
             text=text, language_code=language_code)
         query_input = dialogflow.types.QueryInput(text=text_input)
