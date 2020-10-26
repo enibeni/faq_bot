@@ -25,7 +25,6 @@ def detect_intent_texts(project_id, session_id, texts, language_code):
 
 
 def start_answer_handler(bot, update):
-    tg_logger.info('Телеграм бот запущен')
     project_id = os.getenv('PROJECT_ID')
     session_id = update.message.chat_id
     texts = [update.message.text]
@@ -44,6 +43,7 @@ if __name__ == '__main__':
     handler = TelegramLogsHandler()
     tg_logger.addHandler(handler)
 
+    tg_logger.info('Телеграм бот запущен')
     updater = Updater(token=os.getenv("TELEGRAM_BOT_TOKEN"))
     dispatcher = updater.dispatcher
 
@@ -53,3 +53,4 @@ if __name__ == '__main__':
     answer_handler = MessageHandler(Filters.text, start_answer_handler)
     dispatcher.add_handler(answer_handler)
     updater.start_polling()
+
