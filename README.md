@@ -41,11 +41,14 @@ run telegram bot:
 $ python3 telegram_bot.py
 ```
 
+![Alt Text](https://media.giphy.com/media/PIaJJgfsJbjwxjG9Hv/giphy.gif)
+
 run vk bot:
 ```bash
 $ python3 vk_bot.py
 ```
 
+![Alt Text](https://media.giphy.com/media/wvMWJ59vJzjCanB8mk/giphy.gif)
 
 ### Project Goals
 
