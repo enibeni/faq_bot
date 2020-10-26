@@ -7,7 +7,7 @@ from logs_handler import TelegramLogsHandler
 
 
 def start(bot, update):
-    bot.send_message(chat_id=update.message.chat_id, text="Здравствуйте")
+    bot.send_message(chat_id=update.message.chat_id, text="Здравствуйте, чем можем помочь?")
 
 
 def detect_intent_texts(project_id, session_id, texts, language_code):
