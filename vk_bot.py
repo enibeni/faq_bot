@@ -9,8 +9,6 @@ from logs_handler import TelegramLogsHandler
 
 
 def detect_intent_texts(project_id, session_id, texts, language_code):
-    """Returns the result of detect intent with texts as inputs.
-    """
     session_client = dialogflow.SessionsClient()
     session = session_client.session_path(project_id, session_id)
 
@@ -28,7 +26,7 @@ def detect_intent_texts(project_id, session_id, texts, language_code):
 
 
 def start_vk_listener(event, vk_api):
-
+    vk_logger.info('ВК бот запущен')
     project_id = os.getenv('PROJECT_ID')
     session_id = event.user_id,
     texts = [event.text]
