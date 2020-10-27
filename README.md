@@ -7,12 +7,12 @@ Train the bot with common Q&A and free your support team time
 
 To use this script you should provide certain keys as environment variables in the .env file.
 The keys you need to provide:
-- PROJECT_ID - DialogFlow project id
+- GOOGLE_APPLICATION_PROJECT_ID - DialogFlow project id
 - GOOGLE_APPLICATION_CREDENTIALS - authentication credentials to your application
-- VK_TOKEN - vk bot api key
-- TELEGRAM_TOKEN - telegram bot api key
-- TELEGRAM_TOKEN_LOGGER - telegram bot api key for logging
-- CHAT_ID - telegram chat id provided via @userinfobot bot
+- VK_TOKEN_ANSWER_BOT - vk bot api key
+- TG_TOKEN_ANSWER_BOT - telegram bot api key
+- TG_TOKEN_LOGGER_BOT - telegram bot api key for logging
+- TG_CHAT_ID - telegram chat id provided via @userinfobot bot
 
 to get PROJECT_ID create DialogFlow project with this manual https://cloud.google.com/dialogflow/es/docs/quick/setup
 

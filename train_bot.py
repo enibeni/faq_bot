@@ -6,7 +6,7 @@ import json
 
 def create_intent(intent_name, answer, questions):
     client = dialogflow.IntentsClient()
-    parent = client.project_agent_path(os.getenv('PROJECT_ID'))
+    parent = client.project_agent_path(os.getenv("GOOGLE_APPLICATION_PROJECT_ID"))
 
     training_phrases = []
     for question in questions:
@@ -38,7 +38,7 @@ def create_intent(intent_name, answer, questions):
 
 def train_agent():
     client = dialogflow.AgentsClient()
-    parent = client.project_path(os.getenv('PROJECT_ID'))
+    parent = client.project_path(os.getenv("GOOGLE_APPLICATION_PROJECT_ID"))
     client.train_agent(parent)
 
 

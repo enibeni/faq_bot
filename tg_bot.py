@@ -25,7 +25,7 @@ def detect_intent_texts(project_id, session_id, texts, language_code):
 
 
 def start_answer_handler(bot, update):
-    project_id = os.getenv('PROJECT_ID')
+    project_id = os.getenv("GOOGLE_APPLICATION_PROJECT_ID")
     session_id = update.message.chat_id
     texts = [update.message.text]
     try:
@@ -43,8 +43,8 @@ if __name__ == '__main__':
     handler = TelegramLogsHandler()
     tg_logger.addHandler(handler)
 
-    tg_logger.info('Телеграм бот запущен')
-    updater = Updater(token=os.getenv("TELEGRAM_BOT_TOKEN"))
+    tg_logger.info("Телеграм бот запущен")
+    updater = Updater(token=os.getenv("TG_TOKEN_ANSWER_BOT"))
     dispatcher = updater.dispatcher
 
     start_handler = CommandHandler('start', start)

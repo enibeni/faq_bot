@@ -26,7 +26,7 @@ def detect_intent_texts(project_id, session_id, texts, language_code):
 
 
 def start_vk_listener(event, vk_api):
-    project_id = os.getenv('PROJECT_ID')
+    project_id = os.getenv("GOOGLE_APPLICATION_PROJECT_ID")
     session_id = event.user_id,
     texts = [event.text]
     try:
@@ -38,7 +38,7 @@ def start_vk_listener(event, vk_api):
                 random_id=random.randint(1,1000)
             )
     except Exception as e:
-        vk_logger.error('Бот упал с ошибкой:')
+        vk_logger.error("Бот упал с ошибкой:")
         vk_logger.exception(e)
 
 
@@ -49,8 +49,8 @@ if __name__ == "__main__":
     handler = TelegramLogsHandler()
     vk_logger.addHandler(handler)
 
-    vk_logger.info('ВК бот запущен')
-    vk_session = vk_api.VkApi(token=os.getenv('VK_TOKEN'))
+    vk_logger.info("ВК бот запущен")
+    vk_session = vk_api.VkApi(token=os.getenv('VK_TOKEN_ANSWER_BOT'))
     vk_api = vk_session.get_api()
     longpoll = VkLongPoll(vk_session)
     for event in longpoll.listen():
