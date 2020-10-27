@@ -42,16 +42,11 @@ def train_agent():
     client.train_agent(parent)
 
 
-def open_file():
-    with open("questions.json", "r") as json_file:
-        data = json.load(json_file)
-    return data
-
-
 if __name__ == '__main__':
     load_dotenv()
-    data = open_file()
-    for intent_name, intent_name_data in data.items():
+    with open("questions.json", "r") as json_file:
+        intent_data = json.load(json_file)
+    for intent_name, intent_name_data in intent_data.items():
         answer = intent_name_data["answer"]
         questions = intent_name_data["questions"]
         create_intent(intent_name, answer, questions)

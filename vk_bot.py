@@ -7,6 +7,8 @@ from vk_api.longpoll import VkLongPoll, VkEventType
 import logging
 from logs_handler import TelegramLogsHandler
 
+logger = logging.getLogger(__file__)
+
 
 def detect_intent_texts(project_id, session_id, texts, language_code):
     session_client = dialogflow.SessionsClient()
@@ -21,8 +23,6 @@ def detect_intent_texts(project_id, session_id, texts, language_code):
 
     if not response.query_result.intent.is_fallback:
         return response.query_result.fulfillment_text
-    else:
-        return None
 
 
 def start_vk_listener(event, vk_api):
@@ -38,18 +38,17 @@ def start_vk_listener(event, vk_api):
                 random_id=random.randint(1,1000)
             )
     except Exception as e:
-        vk_logger.error("Бот упал с ошибкой:")
-        vk_logger.exception(e)
+        logger.error("Бот упал с ошибкой:")
+        logger.exception(e)
 
 
 if __name__ == "__main__":
     load_dotenv()
-    vk_logger = logging.getLogger("vk-bot")
-    vk_logger.setLevel(logging.INFO)
+    logger.setLevel(logging.INFO)
     handler = TelegramLogsHandler()
-    vk_logger.addHandler(handler)
+    logger.addHandler(handler)
 
-    vk_logger.info("ВК бот запущен")
+    logger.info("ВК бот запущен")
     vk_session = vk_api.VkApi(token=os.getenv('VK_TOKEN_ANSWER_BOT'))
     vk_api = vk_session.get_api()
     longpoll = VkLongPoll(vk_session)
