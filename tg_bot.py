@@ -1,9 +1,10 @@
 import os
 from dotenv import load_dotenv
-import dialogflow_v2 as dialogflow
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import logging
 from logs_handler import TelegramLogsHandler
+from dialogflow_helper import fetch_dialogflow_answer
+
 
 logger = logging.getLogger(__file__)
 
@@ -12,33 +13,19 @@ def start(bot, update):
     bot.send_message(chat_id=update.message.chat_id, text="Здравствуйте, чем можем помочь?")
 
 
-def detect_intent_texts(project_id, session_id, texts, language_code):
-    session_client = dialogflow.SessionsClient()
-    session = session_client.session_path(project_id, session_id)
-
-    for text in texts:
-        text_input = dialogflow.types.TextInput(
-            text=text, language_code=language_code)
-        query_input = dialogflow.types.QueryInput(text=text_input)
-        response = session_client.detect_intent(
-            session=session, query_input=query_input)
-
-    return response.query_result.fulfillment_text
+def error_callback(bot, update, error):
+    logger.warning('Update "%s" caused error "%s"', update, error)
 
 
 def start_answer_handler(bot, update):
     project_id = os.getenv("GOOGLE_APPLICATION_PROJECT_ID")
     session_id = update.message.chat_id
-    texts = [update.message.text]
-    try:
-        response_text = detect_intent_texts(project_id, session_id, texts, "ru-RU")
-        bot.send_message(chat_id=update.message.chat_id, text=response_text)
-    except Exception as e:
-        logger.error('Бот упал с ошибкой:')
-        logger.exception(e)
+    text = update.message.text
+    response_text, _ = fetch_dialogflow_answer(project_id, session_id, text, "ru-RU")
+    bot.send_message(chat_id=update.message.chat_id, text=response_text)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     load_dotenv()
     logger.setLevel(logging.INFO)
     handler = TelegramLogsHandler()
@@ -48,10 +35,12 @@ if __name__ == '__main__':
     updater = Updater(token=os.getenv("TG_TOKEN_ANSWER_BOT"))
     dispatcher = updater.dispatcher
 
-    start_handler = CommandHandler('start', start)
+    start_handler = CommandHandler("start", start)
     dispatcher.add_handler(start_handler)
 
     answer_handler = MessageHandler(Filters.text, start_answer_handler)
     dispatcher.add_handler(answer_handler)
+
+    dispatcher.add_error_handler(error_callback)
     updater.start_polling()
 

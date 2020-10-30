@@ -42,6 +42,23 @@ def train_agent():
     client.train_agent(parent)
 
 
+def fetch_dialogflow_answer(project_id, session_id, text, language_code):
+    session_client = dialogflow.SessionsClient()
+    session = session_client.session_path(project_id, session_id)
+    text_input = dialogflow.types.TextInput(
+        text=text,
+        language_code=language_code
+    )
+    query_input = dialogflow.types.QueryInput(text=text_input)
+    response = session_client.detect_intent(
+        session=session,
+        query_input=query_input
+    )
+    response_text = response.query_result.fulfillment_text
+    is_fallback = response.query_result.intent.is_fallback
+    return response_text, is_fallback
+
+
 if __name__ == '__main__':
     load_dotenv()
     with open("questions.json", "r") as json_file:

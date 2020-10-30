@@ -14,11 +14,11 @@ The keys you need to provide:
 - TG_TOKEN_LOGGER_BOT - telegram bot api key for logging
 - TG_CHAT_ID - telegram chat id provided via @userinfobot bot
 
-to get PROJECT_ID create DialogFlow project with this manual https://cloud.google.com/dialogflow/es/docs/quick/setup
+to get GOOGLE_APPLICATION_PROJECT_ID create DialogFlow project with this manual https://cloud.google.com/dialogflow/es/docs/quick/setup
 
 to get GOOGLE_APPLICATION_CREDENTIALS follow this manual https://cloud.google.com/docs/authentication/getting-started
 
-to create vk bot and get VK_TOKEN follow this manual https://vk.com/dev/bots_docs
+to create vk bot and get VK_TOKEN_ANSWER_BOT follow this manual https://vk.com/dev/bots_docs
 
 You will need two telegram bots for this script. One for notification about work check status
 and another one for logging. Find out how to create them on telegram docs https://core.telegram.org/bots
@@ -33,12 +33,12 @@ pip install -r requirements.txt
 
 to train bot fill questions.json file with your common Q&A and run script:
 ```bash
-$ python3 train_bot.py
+$ python3 dialogflow_helper.py
 ```
 
 run telegram bot:
 ```bash
-$ python3 telegram_bot.py
+$ python3 tg_bot.py
 ```
 
 ![Alt Text](https://media.giphy.com/media/PIaJJgfsJbjwxjG9Hv/giphy.gif)
